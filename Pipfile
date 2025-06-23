@@ -11,8 +11,9 @@ prefect = "*"
 jupyter = "*"
 requests = "*"
 pyarrow = "*"
-mlflow = "*"
 boto3 = "*"
+fastapi = {extras = ["standard"], version = "*"}
+mlflow = "==2.10.2"
 
 [dev-packages]
 
