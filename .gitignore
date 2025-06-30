@@ -198,3 +198,5 @@ mlartifacts
 backend.db
 data
 wget-log
+*.pem
+mlruns

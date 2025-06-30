@@ -26,8 +26,20 @@ class House(BaseModel):
     legal_type: str
     zoning_classification: str
     neighbourhood_code: str
-    property_postal_code: str
 
+
+def prepare_features(house: House):
+    return {
+        'current_land_value': house.current_land_value,
+        'current_improvement_value': house.current_improvement_value,
+        'previous_land_value': house.previous_land_value,
+        'previous_improvement_value': house.previous_improvement_value,
+        'age': house.tax_assessment_year - house.year_built,
+        'years_from_last_big_improvement': house.tax_assessment_year - house.big_improvement_year,
+        'legal_type': house.legal_type,
+        'zoning_classification': house.zoning_classification,
+        'neighbourhood_code': house.neighbourhood_code
+    }
 
 
 def make_prediction(features):
@@ -38,7 +50,8 @@ def make_prediction(features):
 
 @app.post('/predict')
 async def predict(house: House):
-    result = make_prediction(house.model_dump())
+    features = prepare_features(house)
+    result = make_prediction(features)
     return {
         'tax_amount': result
     }
