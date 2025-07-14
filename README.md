@@ -91,6 +91,10 @@ Start a local prefect worker
 export PREFECT_API_URL="http://127.0.0.1:4200/api"
 prefect worker start --pool 'default'
 ```
+Download training data
+```bash
+python pipeline/download_data.py
+```
 Run the pipeline
 ```bash
 python pipeline/train_model.py
