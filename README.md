@@ -27,8 +27,8 @@ All cloud infrastructure components, including EC2 instances, RDS, S3 buckets, a
 The project is well tested using unit tests and integration tests.
 
 ### Diagram
-![MLOps Diagram](https://github.com/user-attachments/assets/466a24f0-0c83-4b5a-9a20-db36368edb62)
 
+![MLOps Diagram (1)](https://github.com/user-attachments/assets/644aa77a-e6b2-4af7-ba22-289b9390a649)
 
 ## Steps to Reproduce
 ### Prerequisites
