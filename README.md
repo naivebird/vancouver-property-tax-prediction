@@ -149,7 +149,6 @@ After the metrics are stored in the PostgreSQL database, you can visit Grafana's
 
 ### Step 8: Terminate all the cloud resources
 
-Don't forget to terminate the resources:
 ```bash
 terraform destroy
 ```
