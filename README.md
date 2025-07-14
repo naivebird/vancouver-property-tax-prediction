@@ -28,7 +28,7 @@ The project is well tested using unit tests and integration tests.
 
 ### Diagram
 
-<img width="841" height="521" alt="MLOps Diagram drawio" src="https://github.com/user-attachments/assets/d7893868-9cd9-414c-94b1-07143e11e29d" />
+<img width="841" height="521" alt="MLOps Diagram drawio (1)" src="https://github.com/user-attachments/assets/923424d5-3d45-469d-8772-05b48b5f5b8e" />
 
 ## Steps to Reproduce
 ### Prerequisites
