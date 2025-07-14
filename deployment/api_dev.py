@@ -14,7 +14,7 @@ house = {
     'property_postal_code': 'V5R 6E5'
 }
 
-url = 'http://localhost:8000/predict'
+url = 'http://ec2-34-212-168-220.us-west-2.compute.amazonaws.com:8000/predict'
 headers = {'Content-Type': 'application/json'}
 
 response = requests.post(url, json=house, headers=headers)

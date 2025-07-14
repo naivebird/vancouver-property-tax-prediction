@@ -514,7 +514,7 @@
           "table": "metrics"
         }
       ],
-      "title": "Meidan Prediction",
+      "title": "Median Prediction",
       "type": "timeseries"
     }
   ],
@@ -532,5 +532,5 @@
   "timezone": "browser",
   "title": "Vancouver Property Tax Prediction Model Dashboard",
   "uid": "36e2690b-b4fe-4430-b710-05a2c94bc1d3",
-  "version": 5
+  "version": 1
 }

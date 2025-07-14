@@ -8,7 +8,7 @@ networks:
 services:
   db:
     image: postgres
-    restart: always
+    restart: no
     environment:
       POSTGRES_PASSWORD: example
     ports:
@@ -18,7 +18,7 @@ services:
 
   adminer:
     image: adminer
-    restart: always
+    restart: no
     ports:
       - "8080:8080"
     networks:
@@ -37,4 +37,4 @@ services:
     networks:
       - back-tier
       - front-tier
-    restart: always
+    restart: no

@@ -200,3 +200,4 @@ data
 wget-log
 *.pem
 mlruns
+terraform.tfvars

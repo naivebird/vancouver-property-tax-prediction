@@ -1,6 +1,5 @@
-from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple, Dict, Any
+from typing import Tuple, Dict, Any
 
 import mlflow
 import numpy as np
@@ -15,7 +14,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline, make_pipeline
 
 # Configuration constants
-TRACKING_URI = "http://ec2-34-220-213-61.us-west-2.compute.amazonaws.com:5000/"
+TRACKING_URI = "http://ec2-44-244-103-186.us-west-2.compute.amazonaws.com:5000"
 MODEL_NAME = "vancouver-property-tax-regressor"
 EXPERIMENT_NAME = "vancouver-property-tax-experiment"
 RANDOM_STATE = 42
@@ -87,12 +86,15 @@ def add_features(df: pd.DataFrame) -> Tuple[FeatureMatrix, FeatureMatrix, Target
     )
 
 
-def save_model(pipeline: Pipeline, predictions: np.ndarray, test_data: pd.DataFrame) -> None:
+def save_model(pipeline: Pipeline,
+               predictions: np.ndarray,
+               test_data: pd.DataFrame,
+               reference_dir: Path = Path(__file__).parent / "data",
+               model_dir: Path = Path(__file__).parent / "models") -> None:
     """Save model artifacts and predictions."""
     test_data["prediction"] = predictions
-    test_data.to_parquet("data/reference.parquet")
+    test_data.to_parquet(reference_dir / "reference.parquet")
 
-    model_dir = Path("models")
     model_dir.parent.mkdir(parents=True, exist_ok=True)
     with open(model_dir / "lin_reg.bin", "wb") as f_out:
         dump(pipeline, f_out)
@@ -182,7 +184,7 @@ def train_model(
 
 
 @flow()
-def main_flow(train_path: str = "./data/property-tax-report.parquet") -> None:
+def main_flow(train_path: Path = Path(__file__).parent / "data/property-tax-report.parquet") -> None:
     """
     Main training pipeline flow.
     

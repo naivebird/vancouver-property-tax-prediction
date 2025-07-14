@@ -1,6 +1,8 @@
 import datetime
 import logging
 import time
+from pathlib import Path
+
 import joblib
 import pandas as pd
 import psycopg
@@ -135,11 +137,12 @@ def calculate_metrics(cursor, year, raw_data, reference_data, model):
 @flow
 def batch_monitoring_backfill():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s")
+    pipeline_dir = Path(__file__).parent.parent / 'pipeline'
+    data_dir = pipeline_dir / "data"
+    reference_data = pd.read_parquet(data_dir / 'reference.parquet')
+    raw_data = pd.read_parquet(data_dir / 'property-tax-report.parquet')
 
-    reference_data = pd.read_parquet('../pipeline/data/reference.parquet')
-    raw_data = pd.read_parquet('../pipeline/data/property-tax-report.parquet')
-
-    with open('../pipeline/models/lin_reg.bin', 'rb') as f_in:
+    with open(pipeline_dir / 'models/lin_reg.bin', 'rb') as f_in:
         model = joblib.load(f_in)
 
     prep_db()

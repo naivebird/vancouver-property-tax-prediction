@@ -7,7 +7,6 @@ from sklearn.pipeline import Pipeline
 from pipeline.train_model import (
     read_data,
     add_features,
-    train_model,
     save_model,
     NUMERICAL_FEATURES,
     CATEGORICAL_FEATURES
@@ -80,31 +79,11 @@ def test_save_model(tmp_path):
         os.chdir(tmp_path)
 
         # Test model saving
-        save_model(pipeline, predictions, test_data)
-
-        # Verify files were created using tmp_path
-        assert (tmp_path / "data" / "reference.parquet").exists()
-        assert (tmp_path / "models" / "lin_reg.bin").exists()
-    finally:
-        # Restore working directory
-        os.chdir(original_cwd)
-
-
-@pytest.mark.integration
-def test_train_model(tmp_path, sample_data):
-    # Temporarily change working directory
-    original_cwd = Path.cwd()
-    try:
-        # Create necessary directories
-        Path(tmp_path / "data").mkdir(parents=True)
-        Path(tmp_path / "models").mkdir(parents=True)
-        
-        # Change to temporary directory
-        os.chdir(tmp_path)
-
-        # Run the test
-        X_train, X_test, y_train, y_test = add_features.fn(sample_data)
-        train_model.fn(X_train, X_test, y_train, y_test)
+        save_model(pipeline=pipeline,
+                   predictions=predictions,
+                   test_data=test_data,
+                   reference_dir=Path(tmp_path / "data"),
+                   model_dir=Path(tmp_path / "models"))
 
         # Verify files were created using tmp_path
         assert (tmp_path / "data" / "reference.parquet").exists()

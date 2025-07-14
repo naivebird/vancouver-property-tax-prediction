@@ -1,0 +1,15 @@
+aws_region              = "us-west-2"
+model_bucket            = "vancouver-property-tax-models"
+key_name                = "mlflow-key-pair"
+vpc_id                  = ""
+subnet_ids              = ["subnet-12345678", "subnet-23456789"] // Replace with your actual subnet IDs
+rds_db_name             = "mlflow_db"
+rds_db_user             = "mlflow"
+rds_db_password         = "xxxxxxx" // Replace with your actual RDS password
+rds_instance            = "db.t4g.micro"
+ecr_repo_name           = "vancouver-property-tax-prediction"
+ami_id                  = "ami-xxxxxxx" // Replace with your actual AMI ID
+mlflow_instance_type    = "t2.micro"
+subnet_id               = subnet_ids[0]
+repository_url          = "xxxx.dkr.ecr.us-west-2.amazonaws.com" // Replace with your actual ECR repository URL
+docker_image            = "xxxx.dkr.ecr.us-west-2.amazonaws.com/vancouver-property-tax-prediction:latest" // Replace with your actual Docker image URL

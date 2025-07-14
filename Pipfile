@@ -19,6 +19,7 @@ evidently = "==0.6.7"
 pytest = "*"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.12"
