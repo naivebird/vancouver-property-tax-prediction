@@ -14,7 +14,8 @@ This project uses the Property tax report dataset from City of Vancouver's [Open
 - Monitoring: Evidently, Grafana
 - Infrastructure as code (IaC): Terraform
 
-## Architecture Overview
+## Architecture
+### Overview
 Yearly property data is downloaded from the Open Data Portal and stored locally. A local pipeline, orchestrated with Prefect, can be triggered to train a new regression model on the latest data. The trained model is logged to MLflow, registered in the model registry (backed by S3) under the Staging stage, and evaluated using tracked performance metrics. If the new model outperforms the current one, it is promoted to Production.
 
 A FastAPI-based prediction service, hosted on a dedicated EC2 instance, loads the Production model and serves predictions through the `/predict` endpoint. The MLflow tracking server runs on a separate EC2 instance.
@@ -24,6 +25,10 @@ For model monitoring, Evidently, Grafana, and supporting services can be started
 All cloud infrastructure components, including EC2 instances, RDS, S3 buckets, and networking, are provisioned and managed using Terraform for reproducibility and infrastructure-as-code best practices.
 
 The project is well tested using unit tests and integration tests.
+
+### Diagram
+![MLOps Diagram](https://github.com/user-attachments/assets/466a24f0-0c83-4b5a-9a20-db36368edb62)
+
 
 ## Steps to Reproduce
 ### Prerequisites
