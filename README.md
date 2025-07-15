@@ -87,26 +87,35 @@ After Terraform finishes provisioning all the resources, it'll output the MLFlow
 
 Update the `TRACKING_URI` variable in the `train_model.py` file with the one in the Terraform output.
 
-Start a local prefect server
-```bash
-prefect server start
-```
-Start a local prefect worker
-```bash
-export PREFECT_API_URL="http://127.0.0.1:4200/api"
-prefect worker start --pool 'default'
-```
 Download training data
 ```bash
 python pipeline/download_data.py
 ```
-Run the pipeline
+Start a local prefect server
 ```bash
-python pipeline/train_model.py
+prefect server start
+```
+Create a pool
+```bash
+prefect work-pool create vancouver-property-tax-pool -t process
+```
+Start a local prefect worker
+```bash
+export PREFECT_API_URL="http://127.0.0.1:4200/api"
+prefect worker start -p vancouver-property-tax-pool -t process
+```
+Deploy the model training flow (type 'n' when prompted to pull the flow from the remote branch to run the local code)
+``` bash
+prefect deploy pipeline/train_model.py:main_flow -n 'model-training-deployment' -p vancouver-property-tax-pool -t process 
+```
+Run the deployment
+```bash
+prefect deployment run 'main-flow/model-monitoring-deployment'
 ```
 Access Prefect's UI at `http://127.0.0.1:4200/runs` to see the visualization of the pipeline:
 
-<img width="2216" height="629" alt="image" src="https://github.com/user-attachments/assets/77c3b9af-aa92-41da-902c-ba52a5eafdce" />
+<img width="2217" height="617" alt="Screenshot 2025-07-15 at 10 04 13 AM" src="https://github.com/user-attachments/assets/95f53efb-a2e0-4a8c-9b43-20efde6070b8" />
+
 
 Go to MLFlow URI in the Terraform output to view the model experiment as well as the registered model:
 
@@ -142,15 +151,18 @@ Start PostgreSQL and Grafana:
 cd monitoring
 docker compose up --build -d
 ```
-
-Run batch monitoring backfill pipeline to calculate historical metrics using Evidently:
-
+Deploy the model monitoring flow
+```bash
+prefect deploy monitoring/calculate_metrics.py:batch_monitoring_backfill -n 'model-monitoring-deployment' -p vancouver-property-tax-pool -t process
 ```
-python calculate_metrics.py
+Run the deployment to calculate historical metrics using Evidently:
+```
+prefect deployment run 'batch-monitoring-backfill/model-monitoring-deployment'
 ```
 The pipeline is visualized on Prefect's UI at `http://127.0.0.1:4200/runs` :
 
-<img width="2217" height="631" alt="image" src="https://github.com/user-attachments/assets/d34844a1-3cf9-493e-b04b-352b051b476b" />
+<img width="2226" height="631" alt="image" src="https://github.com/user-attachments/assets/9950f235-6cef-4186-a0c8-e268593984a6" />
+
 
 After the metrics are stored in the PostgreSQL database, you can visit Grafana's UI to create a Dashboard. Alternatively, you can import the `monitoring/dashboards/dashboard.json` file to Grafana.
 
